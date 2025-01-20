@@ -1,38 +1,45 @@
 import PropTypes from "prop-types"; // временная заглушка для параметров (ругается линтер)
 import { useState } from "react";
+function PizzaBlock({ title, price, imageUrl, sizes, types }) {
+  const [activeType, setActiveType] = useState(0);
+  const [activeSize, setActiveSize] = useState(0);
 
-function PizzaBlock({ title, price }) {
-  const [pizzaCount, setPizzaCount] = useState(0);
-
-  const onClickPizzaAdd = () => {
-    setPizzaCount(pizzaCount + 1);
-  };
-
+  const typeNames = ["тонкое", "традиционное"];
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-        alt="Pizza"
-      />
+      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">тонкое</li>
-          <li>традиционное</li>
+          {types.map((typeId, index) => {
+            return (
+              <li
+                key={`${title} + ${typeNames[typeId]}`}
+                className={activeType === index ? "active" : ""}
+                onClick={() => setActiveType(index)}
+              >
+                {typeNames[typeId]}
+              </li>
+            );
+          })}
         </ul>
         <ul>
-          <li className="active">26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {sizes.map((size, index) => {
+            return (
+              <li
+                key={`${title} + ${size}`}
+                className={activeSize === index ? "active" : ""}
+                onClick={() => setActiveSize(index)}
+              >
+                {size} см.
+              </li>
+            );
+          })}
         </ul>
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <button
-          onClick={onClickPizzaAdd}
-          className="button button--outline button--add"
-        >
+        <button className="button button--outline button--add">
           <svg
             width="12"
             height="12"
@@ -46,7 +53,7 @@ function PizzaBlock({ title, price }) {
             />
           </svg>
           <span>Добавить</span>
-          <i>{pizzaCount}</i>
+          <i>0</i>
         </button>
       </div>
     </div>
@@ -57,6 +64,9 @@ function PizzaBlock({ title, price }) {
 PizzaBlock.propTypes = {
   title: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
+  types: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 // временная заглушка для параметров (ругается линтер)
 
