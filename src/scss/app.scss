@@ -3,9 +3,39 @@
 @use './libs/mixins.scss' as mixins;
 @use './variables.scss' as vars;
 @use './components/all.scss';
+@use 'sass:math';
+
+@function calculate-rem($value, $base-width) {
+  $result: math.div($value, $base-width) * 100;
+  @return #{$result}vw;
+}
+
+html,
+body {
+  font-size: calculate-rem(10, 1920);
+
+  @media (max-width: 820px) {
+    font-size: calculate-rem(10, 820);
+  }
+
+  @media (max-width: 420px) {
+    font-size: calculate-rem(10, 420);
+  }
+
+  @media (max-width: 360px) {
+    font-size: calculate-rem(10, 360);
+  }
+}
 
 body {
   background-color: vars.$background;
+}
+
+p,
+li,
+b,
+span {
+  font-size: 1.6rem;
 }
 
 .wrapper {
