@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Categories() {
+const Categories = () => {
   const categoriesList = [
     "Все",
     "Мясные",
@@ -29,6 +29,6 @@ function Categories() {
       </ul>
     </div>
   );
-}
+};
 
 export default Categories;

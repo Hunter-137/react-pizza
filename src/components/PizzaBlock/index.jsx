@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"; // временная заглушка для параметров (ругается линтер)
 import { useState } from "react";
-function PizzaBlock({ title, price, imageUrl, sizes, types }) {
+const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
 
@@ -58,7 +58,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
       </div>
     </div>
   );
-}
+};
 
 // временная заглушка для параметров (ругается линтер)
 PizzaBlock.propTypes = {
