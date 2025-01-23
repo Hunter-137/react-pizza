@@ -2,12 +2,14 @@ import Header from "./components/Header";
 import Categories from "./components/Categories";
 import Sort from "./components/Sort";
 import PizzaBlock from "./components/PizzaBlock";
+import Skeleton from "./components/PizzaBlock/Skeleton";
 
 import "./scss/app.scss";
 import { useEffect, useState } from "react";
 
 function App() {
   const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -17,6 +19,7 @@ function App() {
         );
         const result = await response.json();
         setItems(result);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -35,9 +38,13 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            {items.map((obj) => {
-              return <PizzaBlock key={obj.title} {...obj} />;
-            })}
+            {isLoading
+              ? [...new Array(6)].map((skeleton, index) => {
+                  return <Skeleton key={index} />;
+                })
+              : items.map((obj) => {
+                  return <PizzaBlock key={obj.id} {...obj} />;
+                })}
           </div>
         </div>
       </div>
