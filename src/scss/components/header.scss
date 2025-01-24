@@ -1,32 +1,42 @@
 @use '../variables.scss';
 
 .header {
-  border-bottom: 1px solid variables.$gray-line;
-  padding: 40px 0;
+  border-bottom: 0.1rem solid variables.$gray-line;
+  padding: 4rem 0;
 
   .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 520px) {
+      flex-direction: column-reverse;
+      gap: 3rem;
+    }
   }
 
   &__logo {
     display: flex;
+    gap: 1.5rem;
+    align-items: center;
 
-    img {
-      margin-right: 15px;
-    }
-
-    h1 {
+    &-title {
       color: #181818;
-      font-size: 24px;
-      letter-spacing: 1%;
+      font-size: 2.4rem;
+      letter-spacing: 0.1rem;
       text-transform: uppercase;
       font-weight: 800;
     }
 
-    p {
+    &-description {
       color: #7b7b7b;
+      font-size: 1.6rem;
+    }
+
+    img {
+      width: 4.8rem;
+      height: 4.8rem;
+      object-fit: contain;
     }
   }
 }

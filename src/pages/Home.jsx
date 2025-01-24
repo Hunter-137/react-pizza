@@ -34,7 +34,7 @@ const Home = () => {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {isLoading
-          ? [...new Array(6)].map((skeleton, index) => {
+          ? [...new Array(10)].map((skeleton, index) => {
               return <Skeleton key={index} />;
             })
           : items.map((obj) => {

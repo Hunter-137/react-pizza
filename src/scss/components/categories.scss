@@ -6,12 +6,19 @@
 .categories {
   ul {
     display: flex;
+    gap: 1rem;
+
+    @media (max-width: 820px) {
+      flex-wrap: wrap;
+      justify-items: center;
+      align-items: center;
+    }
 
     li {
+      font-size: 1.6rem;
       background-color: #f9f9f9;
-      padding: 13px 30px;
-      border-radius: 30px;
-      margin-right: 10px;
+      padding: 1.3rem 3rem;
+      border-radius: 3rem;
       font-weight: bold;
       cursor: pointer;
       transition: background-color 0.1s ease-in-out;

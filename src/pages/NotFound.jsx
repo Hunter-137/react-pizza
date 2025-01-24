@@ -6,7 +6,7 @@ const NotFound = () => {
     <>
       <NotFoundBlock />
       <Link to="/">
-        <button>На главную страницу</button>
+        <button className='button'>На главную страницу</button>
       </Link>
     </>
   );
