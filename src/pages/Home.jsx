@@ -12,6 +12,7 @@ const Home = () => {
   useEffect(() => {
     async function fetchData() {
       try {
+        window.scrollTo(0, 0);
         const response = await fetch(
           "https://6790ae6caf8442fd73773b6f.mockapi.io/items"
         );
