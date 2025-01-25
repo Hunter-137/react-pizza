@@ -1,6 +1,7 @@
-import { useState } from "react";
+// import { useState } from "react";
+import PropTypes from "prop-types";
 
-const Categories = () => {
+const Categories = ({ categoryId, setCategoryId }) => {
   const categoriesList = [
     "Все",
     "Мясные",
@@ -10,7 +11,7 @@ const Categories = () => {
     "Закрытые",
   ];
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  // const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <div className="categories">
@@ -18,9 +19,9 @@ const Categories = () => {
         {categoriesList.map((categoryName, index) => {
           return (
             <li
-              onClick={() => setActiveIndex(index)}
+              onClick={() => setCategoryId(index)}
               key={categoryName}
-              className={activeIndex === index ? "active" : ""}
+              className={categoryId === index ? "active" : ""}
             >
               {categoryName}
             </li>
@@ -29,6 +30,11 @@ const Categories = () => {
       </ul>
     </div>
   );
+};
+
+Categories.propTypes = {
+  categoryId: PropTypes.number.isRequired,
+  setCategoryId: PropTypes.func.isRequired,
 };
 
 export default Categories;

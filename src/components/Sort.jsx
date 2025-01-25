@@ -1,11 +1,14 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
-const Sort = () => {
+const Sort = ({ sortType, setSortType }) => {
+  // console.log(sortType);
+  // console.log(setSortType);
   const [open, setOpen] = useState(false);
-  const [selectedSort, setSelectedSort] = useState(0);
+  // const [selectedSort, setSelectedSort] = useState(0);
   const sortList = ["популярности", "цене", "алфавиту"];
 
   const afterSelectedSort = (index) => {
-    setSelectedSort(index);
+    setSortType(index);
     setOpen(false);
   };
 
@@ -25,7 +28,7 @@ const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{sortList[selectedSort]}</span>
+        <span onClick={() => setOpen(!open)}>{sortList[sortType]}</span>
       </div>
       {open && (
         <div className="sort__popup">
@@ -35,7 +38,7 @@ const Sort = () => {
                 <li
                   key={sortName}
                   onClick={() => afterSelectedSort(index)}
-                  className={selectedSort === index ? "active" : ""}
+                  className={sortType === index ? "active" : ""}
                 >
                   {sortName}
                 </li>
@@ -46,6 +49,11 @@ const Sort = () => {
       )}
     </div>
   );
-}
+};
+
+Sort.propTypes = {
+  sortType: PropTypes.number.isRequired,
+  setSortType: PropTypes.func.isRequired,
+};
 
 export default Sort;
