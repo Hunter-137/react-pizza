@@ -4,9 +4,12 @@ import { useState } from "react";
 const Sort = ({ value, onChangeSort }) => {
   const [open, setOpen] = useState(false);
   const sortList = [
-    { name: "популярности", sortProperty: "rating" },
-    { name: "цене", sortProperty: "price" },
-    { name: "алфавиту", sortProperty: "title" },
+    { name: "популярности (возрастание)", sortProperty: "-rating" },
+    { name: "популярности (убывание)", sortProperty: "rating" },
+    { name: "цене (возрастание)", sortProperty: "-price" },
+    { name: "цене (убывание)", sortProperty: "price" },
+    { name: "алфавиту (А-Я)", sortProperty: "-title" },
+    { name: "алфавиту (Я-А)", sortProperty: "title" },
   ];
 
   const afterSelectedSort = (obj) => {
@@ -54,7 +57,10 @@ const Sort = ({ value, onChangeSort }) => {
 };
 
 Sort.propTypes = {
-  value: PropTypes.object.isRequired,
+  value: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    sortProperty: PropTypes.string.isRequired,
+  }).isRequired,
   onChangeSort: PropTypes.func.isRequired,
 };
 

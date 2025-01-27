@@ -11,9 +11,15 @@ const Home = () => {
 
   const [categoryId, setCategoryId] = useState(0);
   const [sortType, setSortType] = useState({
-    name: "популярности",
+    name: "популярности (возрастание)",
     sortProperty: "rating",
   });
+
+  const sort = sortType.sortProperty.replace("-", "");
+  const order = sortType.sortProperty.includes("-")
+    ? "order=asc"
+    : "order=desc";
+  const category = categoryId > 0 ? `category=${categoryId}` : "";
 
   useEffect(() => {
     async function fetchData() {
@@ -21,9 +27,7 @@ const Home = () => {
         setIsLoading(true);
         window.scrollTo(0, 0);
         const response = await fetch(
-          `https://6790ae6caf8442fd73773b6f.mockapi.io/items?sortBy=${
-            sortType.sortProperty
-          }&order=desc&${categoryId > 0 ? `category=${categoryId}` : ""}`
+          `https://6790ae6caf8442fd73773b6f.mockapi.io/items?sortBy=${sort}&${order}&${category}`
         );
         const result = await response.json();
         setItems(result);
