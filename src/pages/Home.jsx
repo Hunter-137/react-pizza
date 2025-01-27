@@ -10,21 +10,21 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [categoryId, setCategoryId] = useState(0);
-  const [sortType, setSortType] = useState(0);
-
-  // console.log(categoryId);
-  // console.log(sortType);
+  const [sortType, setSortType] = useState({
+    name: "популярности",
+    sortProperty: "rating",
+  });
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const link =
-          categoryId === 0
-            ? `https://6790ae6caf8442fd73773b6f.mockapi.io/items`
-            : `https://6790ae6caf8442fd73773b6f.mockapi.io/items?category=${categoryId}`;
-        window.scrollTo(0, 0);
         setIsLoading(true);
-        const response = await fetch(link);
+        window.scrollTo(0, 0);
+        const response = await fetch(
+          `https://6790ae6caf8442fd73773b6f.mockapi.io/items?sortBy=${
+            sortType.sortProperty
+          }&order=desc&${categoryId > 0 ? `category=${categoryId}` : ""}`
+        );
         const result = await response.json();
         setItems(result);
         setIsLoading(false);
@@ -33,13 +33,16 @@ const Home = () => {
       }
     }
     fetchData();
-  }, [categoryId]);
+  }, [categoryId, sortType]);
 
   return (
     <>
       <div className="content__top">
-        <Categories categoryId={categoryId} setCategoryId={setCategoryId} />
-        <Sort sortType={sortType} setSortType={setSortType} />
+        <Categories
+          value={categoryId}
+          onChangeCategory={(id) => setCategoryId(id)}
+        />
+        <Sort value={sortType} onChangeSort={(type) => setSortType(type)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
