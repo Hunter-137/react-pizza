@@ -1,7 +1,10 @@
+import PropTypes from "prop-types";
+
 import { Link } from "react-router";
 import logoPizza from "../assets/img/pizza-logo.svg";
+import Search from "./Search/Search";
 
-const Header = () => {
+const Header = ({ searchValue, setSearchValue }) => {
   return (
     <div className="header">
       <div className="container">
@@ -9,11 +12,14 @@ const Header = () => {
           <div className="header__logo">
             <img width="38" src={logoPizza} alt="Pizza logo" />
             <div>
-              <h1 className='header__logo-title'>React Pizza</h1>
-              <p className='header__logo-description'>самая вкусная пицца во вселенной</p>
+              <h1 className="header__logo-title">React Pizza</h1>
+              <p className="header__logo-description">
+                самая вкусная пицца во вселенной
+              </p>
             </div>
           </div>
         </Link>
+        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>520 ₽</span>
@@ -53,6 +59,11 @@ const Header = () => {
       </div>
     </div>
   );
+};
+
+Header.propTypes = {
+  searchValue: PropTypes.string.isRequired,
+  setSearchValue: PropTypes.func.isRequired,
 };
 
 export default Header;
