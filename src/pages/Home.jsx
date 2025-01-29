@@ -45,16 +45,10 @@ const Home = ({ searchValue }) => {
   });
 
   const pizzas = items
-    .filter((obj) => {
-      if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
-        return true;
-      } else {
-        return false;
-      }
-    })
-    .map((obj) => {
-      return <PizzaBlock key={obj.id} {...obj} />;
-    });
+    .filter((obj) =>
+      obj.title.toLowerCase().includes(searchValue.toLowerCase())
+    )
+    .map((obj) => <PizzaBlock key={obj.id} {...obj} />);
 
   return (
     <>
