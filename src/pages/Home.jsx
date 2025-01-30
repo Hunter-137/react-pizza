@@ -1,13 +1,15 @@
-import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination/Pagination";
+import SearchValueContext from "../context/SearchValueContext";
 
-const Home = ({ searchValue }) => {
+const Home = () => {
+  const { searchValue } = useContext(SearchValueContext);
+
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -68,10 +70,6 @@ const Home = ({ searchValue }) => {
       <Pagination onChangePage={(pageNumber) => setCurrentPage(pageNumber)} />
     </>
   );
-};
-
-Home.propTypes = {
-  searchValue: PropTypes.string.isRequired,
 };
 
 export default Home;

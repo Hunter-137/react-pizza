@@ -1,7 +1,10 @@
-import PropTypes from "prop-types";
 import styles from "./Search.module.scss";
+import SearchValueContext from "../../context/SearchValueContext";
+import { useContext } from "react";
 
-const Search = ({ searchValue, setSearchValue }) => {
+const Search = () => {
+  const { searchValue, setSearchValue } = useContext(SearchValueContext);
+
   return (
     <div className={styles.root}>
       <svg
@@ -39,11 +42,6 @@ const Search = ({ searchValue, setSearchValue }) => {
       </svg>
     </div>
   );
-};
-
-Search.propTypes = {
-  searchValue: PropTypes.string.isRequired,
-  setSearchValue: PropTypes.func.isRequired,
 };
 
 export default Search;
