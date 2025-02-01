@@ -8,11 +8,33 @@ import NotFound from "./pages/NotFound";
 import "./scss/app.scss";
 import SearchValueContext from "./context/SearchValueContext";
 
+import { useSelector, useDispatch } from "react-redux";
+import { decrement, increment } from "./redux/slices/counterSlice";
+
 function App() {
   const [searchValue, setSearchValue] = useState("");
 
+  const count = useSelector((state) => state.blablabla.chislo);
+  const dispatch = useDispatch();
+
   return (
     <div className="wrapper">
+      <div>
+        <button
+          aria-label="Increment value"
+          onClick={() => dispatch(increment())}
+        >
+          Increment
+        </button>
+        <span>{count}</span>
+        <button
+          aria-label="Decrement value"
+          onClick={() => dispatch(decrement())}
+        >
+          Decrement
+        </button>
+      </div>
+
       <SearchValueContext.Provider value={{ searchValue, setSearchValue }}>
         <Header />
         <div className="content">
