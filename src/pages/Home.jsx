@@ -1,4 +1,7 @@
 import { useState, useEffect, useContext } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import { setCatedoryId } from "../redux/slices/filterSlice";
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -13,7 +16,13 @@ const Home = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [categoryId, setCategoryId] = useState(0);
+  const categoryId = useSelector((state) => state.filterSlice.categoryId);
+  const dispatch = useDispatch();
+
+  const onChangeCategory = (id) => {
+    dispatch(setCatedoryId(id));
+  };
+
   const [sortType, setSortType] = useState({
     name: "популярности (возрастание)",
     sortProperty: "rating",
@@ -61,7 +70,7 @@ const Home = () => {
       <div className="content__top">
         <Categories
           value={categoryId}
-          onChangeCategory={(id) => setCategoryId(id)}
+          onChangeCategory={(id) => onChangeCategory(id)}
         />
         <Sort value={sortType} onChangeSort={(type) => setSortType(type)} />
       </div>
