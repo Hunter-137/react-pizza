@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
 import { setCatedoryId, setSortType } from "../redux/slices/filterSlice";
 
@@ -36,21 +37,14 @@ const Home = () => {
   const search = searchValue ? `&search=${searchValue}` : "";
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        setIsLoading(true);
-        window.scrollTo(0, 0);
-        const response = await fetch(
-          `https://6790ae6caf8442fd73773b6f.mockapi.io/items?page=${currentPage}&limit=4&sortBy=${sort}&${order}&${category}${search}`
-        );
-        const result = await response.json();
-        setItems(result);
+    axios
+      .get(
+        `https://6790ae6caf8442fd73773b6f.mockapi.io/items?page=${currentPage}&limit=4&sortBy=${sort}&${order}&${category}${search}`
+      )
+      .then((response) => {
+        setItems(response.data);
         setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
+      });
   }, [categoryId, sortType, searchValue, currentPage]);
 
   const skeletons = [...new Array(4)].map((skeleton, index) => {
