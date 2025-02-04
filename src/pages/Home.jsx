@@ -2,7 +2,11 @@ import { useState, useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
-import { setCatedoryId, setSortType } from "../redux/slices/filterSlice";
+import {
+  setCatedoryId,
+  setSortType,
+  setCurrentPage,
+} from "../redux/slices/filterSlice";
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -17,7 +21,9 @@ const Home = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { categoryId, sortType } = useSelector((state) => state.filterSlice);
+  const { categoryId, sortType, currentPage } = useSelector(
+    (state) => state.filterSlice
+  );
   const sortTypeProperty = sortType.sortProperty;
   const dispatch = useDispatch();
 
@@ -29,7 +35,7 @@ const Home = () => {
     dispatch(setSortType(type));
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
 
   const sort = sortTypeProperty.replace("-", "");
   const order = sortTypeProperty.includes("-") ? "order=asc" : "order=desc";
@@ -68,7 +74,10 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
-      <Pagination onChangePage={(pageNumber) => setCurrentPage(pageNumber)} />
+      <Pagination
+        currentPage={currentPage}
+        onChangePage={(pageNumber) => dispatch(setCurrentPage(pageNumber))}
+      />
     </>
   );
 };
