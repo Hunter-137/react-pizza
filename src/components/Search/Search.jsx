@@ -1,9 +1,30 @@
 import styles from "./Search.module.scss";
 import SearchValueContext from "../../context/SearchValueContext";
-import { useContext } from "react";
+import { useContext, useRef, useCallback, useState } from "react";
+import debounce from "lodash.debounce";
 
 const Search = () => {
-  const { searchValue, setSearchValue } = useContext(SearchValueContext);
+  const [value, setValue] = useState("");
+  const { setSearchValue } = useContext(SearchValueContext);
+  const inputRef = useRef();
+
+  const onClickClear = () => {
+    setValue("");
+    setSearchValue("");
+    inputRef.current.focus();
+  };
+
+  const updateSearchValue = useCallback(
+    debounce((str) => {
+      setSearchValue(str);
+    }, 250),
+    []
+  );
+
+  const onChangeInput = (event) => {
+    setValue(event.target.value);
+    updateSearchValue(event.target.value);
+  };
 
   return (
     <div className={styles.root}>
@@ -19,17 +40,18 @@ const Search = () => {
       </svg>
 
       <input
-        value={searchValue}
-        onChange={(event) => setSearchValue(event.target.value)}
+        ref={inputRef}
+        value={value}
+        onChange={onChangeInput}
         className={styles.input}
         type="text"
         placeholder="Поиск пиццы..."
       />
 
       <svg
-        onClick={() => setSearchValue("")}
+        onClick={() => onClickClear()}
         className={`${styles.clearBtnIcon} ${
-          searchValue.length > 0 ? "" : styles.hidden
+          value.length > 0 ? "" : styles.hidden
         }`}
         height="512px"
         id="Layer_1"
