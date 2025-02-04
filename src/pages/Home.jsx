@@ -35,8 +35,6 @@ const Home = () => {
     dispatch(setSortType(type));
   };
 
-  // const [currentPage, setCurrentPage] = useState(1);
-
   const sort = sortTypeProperty.replace("-", "");
   const order = sortTypeProperty.includes("-") ? "order=asc" : "order=desc";
   const category = categoryId > 0 ? `category=${categoryId}` : "";
@@ -57,11 +55,7 @@ const Home = () => {
     return <Skeleton key={index} />;
   });
 
-  const pizzas = items
-    // .filter((obj) =>
-    //   obj.title.toLowerCase().includes(searchValue.toLowerCase())
-    // )
-    .map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
 
   return (
     <>
