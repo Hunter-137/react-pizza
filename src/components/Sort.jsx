@@ -1,17 +1,17 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 
+export const sortList = [
+  { name: "популярности (возрастание)", sortProperty: "-rating" },
+  { name: "популярности (убывание)", sortProperty: "rating" },
+  { name: "цене (возрастание)", sortProperty: "-price" },
+  { name: "цене (убывание)", sortProperty: "price" },
+  { name: "алфавиту (А-Я)", sortProperty: "-title" },
+  { name: "алфавиту (Я-А)", sortProperty: "title" },
+];
+
 const Sort = ({ value, onChangeSort }) => {
   const [open, setOpen] = useState(false);
-  const sortList = [
-    { name: "популярности (возрастание)", sortProperty: "-rating" },
-    { name: "популярности (убывание)", sortProperty: "rating" },
-    { name: "цене (возрастание)", sortProperty: "-price" },
-    { name: "цене (убывание)", sortProperty: "price" },
-    { name: "алфавиту (А-Я)", sortProperty: "-title" },
-    { name: "алфавиту (Я-А)", sortProperty: "title" },
-  ];
-
   const afterSelectedSort = (obj) => {
     onChangeSort(obj);
     setOpen(false);
