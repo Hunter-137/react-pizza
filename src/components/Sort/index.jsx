@@ -1,17 +1,33 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import sortList from "./sortList";
 
 const Sort = ({ value, onChangeSort }) => {
   const [open, setOpen] = useState(false);
+  const sortRef = useRef();
   const afterSelectedSort = (obj) => {
     onChangeSort(obj);
     setOpen(false);
   };
 
+  useEffect(() => {
+    const onClickOutside = (event) => {
+      if (!sortRef.current.contains(event.target)) {
+        setOpen(false);
+        console.log("did");
+      }
+    };
+
+    document.body.addEventListener("click", onClickOutside);
+
+    return () => {
+      document.body.removeEventListener("click", onClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div className="sort" ref={sortRef}>
       <div className="sort__label">
         <svg
           width="10"
