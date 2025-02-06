@@ -12,7 +12,8 @@ import {
 } from "../redux/slices/filterSlice";
 
 import Categories from "../components/Categories";
-import Sort, { sortList } from "../components/Sort";
+import Sort from "../components/Sort";
+import sortList from "../components/Sort/sortList";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination/Pagination";
