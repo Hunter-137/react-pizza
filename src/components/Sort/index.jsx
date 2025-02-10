@@ -15,7 +15,6 @@ const Sort = ({ value, onChangeSort }) => {
     const onClickOutside = (event) => {
       if (!sortRef.current.contains(event.target)) {
         setOpen(false);
-        console.log("did");
       }
     };
 

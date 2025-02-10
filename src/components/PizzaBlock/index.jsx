@@ -1,8 +1,28 @@
 import PropTypes from "prop-types"; // временная заглушка для параметров (ругается линтер)
 import { useState } from "react";
-const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { setItems } from "../../redux/slices/cartSlice";
+const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
+  const dispatch = useDispatch();
+  const addedPizzasList = useSelector((state) => state.cartSlice).items;
+  const addedPizzasCount = addedPizzasList.filter((obj) => {
+    return id === obj.id;
+  });
+
+  const onAddPizza = () => {
+    dispatch(
+      setItems({
+        id,
+        title,
+        price,
+        imageUrl,
+        sizes,
+        types,
+      })
+    );
+  };
 
   const typeNames = ["тонкое", "традиционное"];
   return (
@@ -39,7 +59,10 @@ const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <button className="button button--outline button--add">
+        <button
+          className="button button--outline button--add"
+          onClick={() => onAddPizza()}
+        >
           <svg
             width="12"
             height="12"
@@ -53,7 +76,7 @@ const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
             />
           </svg>
           <span>Добавить</span>
-          <i>0</i>
+          <i>{addedPizzasCount.length}</i>
         </button>
       </div>
     </div>
@@ -62,6 +85,7 @@ const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
 
 // временная заглушка для параметров (ругается линтер)
 PizzaBlock.propTypes = {
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   imageUrl: PropTypes.string.isRequired,
