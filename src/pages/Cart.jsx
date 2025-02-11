@@ -7,9 +7,7 @@ import CartPizzasList from "../components/CartPizzasList";
 const Cart = () => {
   const dispatch = useDispatch();
 
-  const { items, totalPrice, totalCount } = useSelector(
-    (state) => state.cartSlice
-  );
+  const { totalPrice, totalCount } = useSelector((state) => state.cartSlice);
 
   const onClickClearItems = () => {
     dispatch(clearItems());

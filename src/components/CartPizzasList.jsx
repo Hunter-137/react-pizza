@@ -1,10 +1,9 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setItems, removeItem, clearItems } from "../redux/slices/cartSlice";
+import { removeItem } from "../redux/slices/cartSlice";
 
 const CartPizzasList = () => {
   const dispatch = useDispatch();
-  const { items, totalPrice } = useSelector((state) => state.cartSlice);
+  const { items } = useSelector((state) => state.cartSlice);
 
   const onClickRemoveItem = (obj) => {
     dispatch(removeItem(obj.id));
