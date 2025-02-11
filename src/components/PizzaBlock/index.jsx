@@ -2,14 +2,15 @@ import PropTypes from "prop-types"; // временная заглушка дл�
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setItems } from "../../redux/slices/cartSlice";
+
+const typeNames = ["тонкое", "традиционное"];
+
 const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
   const dispatch = useDispatch();
   const addedPizzasList = useSelector((state) => state.cartSlice).items;
-  const addedPizzasCount = addedPizzasList.filter((obj) => {
-    return id === obj.id;
-  });
+  const addedPizzasCount = addedPizzasList.find((obj) => obj.id === id);
 
   const onAddPizza = () => {
     dispatch(
@@ -18,13 +19,13 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
         title,
         price,
         imageUrl,
-        sizes,
-        types,
+        size: sizes[activeSize],
+        type: typeNames[activeType],
+        count: 1,
       })
     );
   };
 
-  const typeNames = ["тонкое", "традиционное"];
   return (
     <div className="pizza-block">
       <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
@@ -76,7 +77,7 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
             />
           </svg>
           <span>Добавить</span>
-          <i>{addedPizzasCount.length}</i>
+          {addedPizzasCount && <i>{addedPizzasCount.count}</i>}
         </button>
       </div>
     </div>
