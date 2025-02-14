@@ -1,20 +1,43 @@
 import { useDispatch, useSelector } from "react-redux";
-import { removeItem } from "../redux/slices/cartSlice";
+import {
+  removeItem,
+  plusOneItem,
+  minusOneItem,
+} from "../redux/slices/cartSlice";
+
+import emptyCartImg from "../assets/img/empty-cart.png";
 
 const CartPizzasList = () => {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cartSlice);
 
   const onClickRemoveItem = (obj) => {
-    dispatch(removeItem(obj.id));
+    dispatch(removeItem(obj));
   };
+
+  const onClickPlusItem = (obj) => {
+    dispatch(plusOneItem(obj));
+  };
+
+  const onClickMinusItem = (obj) => {
+    dispatch(minusOneItem(obj));
+  };
+
+  const sortedItems = [...items];
+
+  if (sortedItems.length > 1) {
+    sortedItems.sort((a, b) => a.title.localeCompare(b.title));
+  }
 
   return (
     <div className="content__items">
-      {items.length > 0 ? (
-        items.map((obj) => {
+      {sortedItems.length > 0 ? (
+        sortedItems.map((obj) => {
           return (
-            <div key={obj.id} className="cart__item">
+            <div
+              key={`${obj.id} ${obj.size} ${obj.type}`}
+              className="cart__item"
+            >
               <div className="cart__item-img">
                 <img
                   className="pizza-block__image"
@@ -29,7 +52,10 @@ const CartPizzasList = () => {
                 </p>
               </div>
               <div className="cart__item-count">
-                <div className="button button--outline button--circle cart__item-count-minus">
+                <div
+                  onClick={() => onClickMinusItem(obj)}
+                  className="button button--outline button--circle cart__item-count-minus"
+                >
                   <svg
                     width="10"
                     height="10"
@@ -47,8 +73,11 @@ const CartPizzasList = () => {
                     />
                   </svg>
                 </div>
-                <b>2</b>
-                <div className="button button--outline button--circle cart__item-count-plus">
+                <b>{obj.count}</b>
+                <div
+                  onClick={() => onClickPlusItem(obj)}
+                  className="button button--outline button--circle cart__item-count-plus"
+                >
                   <svg
                     width="10"
                     height="10"
@@ -68,7 +97,7 @@ const CartPizzasList = () => {
                 </div>
               </div>
               <div className="cart__item-price">
-                <b>{obj.price} ₽</b>
+                <b>{obj.price * obj.count} ₽</b>
               </div>
               <div
                 onClick={() => onClickRemoveItem(obj)}
@@ -97,7 +126,12 @@ const CartPizzasList = () => {
           );
         })
       ) : (
-        <h2>Корзина пуста!</h2>
+        <div className="cart__empty">
+          <h2 className="cart__empty-title">Пусто!</h2>
+          <div className="cart__empty-img">
+            <img src={emptyCartImg} alt="empty cart" />
+          </div>
+        </div>
       )}
     </div>
   );

@@ -10,7 +10,14 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
   const [activeSize, setActiveSize] = useState(0);
   const dispatch = useDispatch();
   const addedPizzasList = useSelector((state) => state.cartSlice).items;
-  const addedPizzasCount = addedPizzasList.find((obj) => obj.id === id);
+  const addedPizzasCount = addedPizzasList
+    .filter((obj) => obj.id === id)
+    .reduce((acc, obj) => {
+      if (obj.count > 0) {
+        acc += obj.count;
+      }
+      return acc;
+    }, 0);
 
   const onAddPizza = () => {
     dispatch(
@@ -77,7 +84,7 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
             />
           </svg>
           <span>Добавить</span>
-          {addedPizzasCount && <i>{addedPizzasCount.count}</i>}
+          {addedPizzasCount > 0 && <i>{addedPizzasCount}</i>}
         </button>
       </div>
     </div>

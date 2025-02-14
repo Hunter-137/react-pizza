@@ -11,7 +11,12 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     setItems(state, action) {
-      const findItem = state.items.find((obj) => obj.id === action.payload.id);
+      const findItem = state.items.find(
+        (obj) =>
+          obj.id === action.payload.id &&
+          obj.type === action.payload.type &&
+          obj.size === action.payload.size
+      );
       findItem ? (findItem.count += 1) : state.items.push(action.payload);
 
       state.totalPrice = state.items.reduce((acc, obj) => {
@@ -31,10 +36,81 @@ const cartSlice = createSlice({
     },
 
     removeItem(state, action) {
-      state.items = state.items.filter((obj) => obj.id !== action.payload);
+      const findRemoveIndex = state.items.findIndex((obj) => {
+        return (
+          obj.id === action.payload.id &&
+          obj.type === action.payload.type &&
+          obj.size === action.payload.size
+        );
+      });
+
+      state.items.splice(findRemoveIndex, 1);
+
+      state.totalPrice = state.items.reduce((acc, obj) => {
+        acc += obj.price * obj.count;
+        return acc;
+      }, 0);
+
+      state.totalCount = state.items.reduce((acc, obj) => {
+        acc += obj.count;
+        return acc;
+      }, 0);
+    },
+
+    plusOneItem(state, action) {
+      const findItem = state.items.find(
+        (obj) =>
+          obj.id === action.payload.id &&
+          obj.type === action.payload.type &&
+          obj.size === action.payload.size
+      );
+      findItem.count += 1;
+
+      state.totalPrice = state.items.reduce((acc, obj) => {
+        acc += obj.price * obj.count;
+        return acc;
+      }, 0);
+
+      state.totalCount = state.items.reduce((acc, obj) => {
+        acc += obj.count;
+        return acc;
+      }, 0);
+    },
+
+    minusOneItem(state, action) {
+      const findItem = state.items.find(
+        (obj) =>
+          obj.id === action.payload.id &&
+          obj.type === action.payload.type &&
+          obj.size === action.payload.size
+      );
+      if (findItem.count > 1) {
+        findItem.count -= 1;
+      } else {
+        const findRemoveIndex = state.items.findIndex((obj) => {
+          return (
+            obj.id === action.payload.id &&
+            obj.type === action.payload.type &&
+            obj.size === action.payload.size
+          );
+        });
+
+        state.items.splice(findRemoveIndex, 1);
+      }
+
+      state.totalPrice = state.items.reduce((acc, obj) => {
+        acc += obj.price * obj.count;
+        return acc;
+      }, 0);
+
+      state.totalCount = state.items.reduce((acc, obj) => {
+        acc += obj.count;
+        return acc;
+      }, 0);
     },
   },
 });
 
-export const { setItems, clearItems, removeItem } = cartSlice.actions;
+export const { setItems, clearItems, removeItem, plusOneItem, minusOneItem } =
+  cartSlice.actions;
 export default cartSlice.reducer;
