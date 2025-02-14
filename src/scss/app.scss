@@ -176,15 +176,19 @@ body {
   }
 
   &__item {
-    display: flex;
     width: 100%;
     border-top: 0.1rem solid vars.$gray-line;
     padding-top: 3rem;
     margin-top: 3rem;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 10% 40% 20% 20% 10%;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 15% 35% 20% 20% 10%;
+    }
 
     @media (max-width: 640px) {
+      display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -195,6 +199,10 @@ body {
       display: flex;
       align-items: center;
       margin-right: 1.5rem;
+
+      @media (max-width: 640px) {
+        margin-right: 0;
+      }
 
       img {
         width: 8rem;
@@ -227,8 +235,8 @@ body {
     &-count {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
+      justify-content: center;
+      gap: 2rem;
 
       &-minus {
         svg {
@@ -285,21 +293,6 @@ body {
           background-color: color.scale(vars.$gray-line, $lightness: -80%);
         }
       }
-    }
-  }
-
-  &__empty {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5rem;
-    margin-top: 5rem;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
     }
   }
 
@@ -384,7 +377,7 @@ body {
 
   &--empty {
     margin: 0 auto;
-    width: 56rem;
+    width: 100%;
     text-align: center;
 
     h2 {
