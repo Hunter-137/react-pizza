@@ -1,7 +1,6 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useEffect, useContext, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import qs from "qs";
 
 import {
@@ -10,6 +9,7 @@ import {
   setCurrentPage,
   setFilter,
 } from "../redux/slices/filterSlice";
+import { fetchPizza } from "../redux/slices/pizzaSlice";
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -18,11 +18,11 @@ import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination/Pagination";
 import SearchValueContext from "../context/SearchValueContext";
+import FailedPizzasFetch from "../components/FailedPizzasFetch";
 
 const Home = () => {
   const { searchValue } = useContext(SearchValueContext);
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { items, status } = useSelector((state) => state.pizzaSlice);
   const { categoryId, sortType, currentPage } = useSelector(
     (state) => state.filterSlice
   );
@@ -45,18 +45,16 @@ const Home = () => {
   const category = categoryId > 0 ? `category=${categoryId}` : "";
   const search = searchValue ? `&search=${searchValue}` : "";
 
-  const fetchPizzas = async () => {
-    try {
-      const response = await axios.get(
-        `https://6790ae6caf8442fd73773b6f.mockapi.io/items?page=${currentPage}&limit=4&sortBy=${sort}&${order}&${category}${search}`
-      );
-      setItems(response.data);
-    } catch (error) {
-      console.log("Fetch error", error);
-      alert("Ошибка при загрузке пицц");
-    } finally {
-      setIsLoading(false);
-    }
+  const getPizzas = async () => {
+    dispatch(
+      fetchPizza({
+        sort,
+        order,
+        category,
+        search,
+        currentPage,
+      })
+    );
   };
 
   // Если был первый рендер, то нужно вшить сортировку в адресную строку
@@ -96,7 +94,7 @@ const Home = () => {
   // Если был первый рендер, то запрашиваем пиццы
   useEffect(() => {
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
     isSearch.current = false;
   }, [categoryId, sortType, searchValue, currentPage]);
@@ -117,7 +115,13 @@ const Home = () => {
         <Sort value={sortType} onChangeSort={(type) => onChangeSort(type)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+      {status === "failed" ? (
+        <FailedPizzasFetch />
+      ) : (
+        <div className="content__items">
+          {status === "success" ? pizzas : skeletons}
+        </div>
+      )}
       <Pagination
         currentPage={currentPage}
         onChangePage={(pageNumber) => dispatch(setCurrentPage(pageNumber))}

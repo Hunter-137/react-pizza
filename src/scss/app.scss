@@ -84,6 +84,24 @@ body {
     grid-row-gap: 5rem;
   }
 
+  &__error {
+    text-align: center;
+
+    &-title {
+      font-size: 3.2rem;
+      margin-bottom: 2rem;
+      font-weight: 700;
+
+      @media (max-width: 420px) {
+        line-height: normal;
+      }
+    }
+
+    &-text {
+      font-size: 2rem;
+    }
+  }
+
   &__top {
     display: flex;
     align-items: center;
