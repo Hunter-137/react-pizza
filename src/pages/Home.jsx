@@ -45,15 +45,18 @@ const Home = () => {
   const category = categoryId > 0 ? `category=${categoryId}` : "";
   const search = searchValue ? `&search=${searchValue}` : "";
 
-  const fetchPizzas = () => {
-    axios
-      .get(
+  const fetchPizzas = async () => {
+    try {
+      const response = await axios.get(
         `https://6790ae6caf8442fd73773b6f.mockapi.io/items?page=${currentPage}&limit=4&sortBy=${sort}&${order}&${category}${search}`
-      )
-      .then((response) => {
-        setItems(response.data);
-        setIsLoading(false);
-      });
+      );
+      setItems(response.data);
+    } catch (error) {
+      console.log("Fetch error", error);
+      alert("Ошибка при загрузке пицц");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Если был первый рендер, то нужно вшить сортировку в адресную строку
