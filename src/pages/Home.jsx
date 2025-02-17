@@ -8,8 +8,9 @@ import {
   setSortType,
   setCurrentPage,
   setFilter,
+  selectFilterSlice,
 } from "../redux/slices/filterSlice";
-import { fetchPizza } from "../redux/slices/pizzaSlice";
+import { fetchPizza, selectPizzaSlice } from "../redux/slices/pizzaSlice";
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -22,10 +23,8 @@ import FailedPizzasFetch from "../components/FailedPizzasFetch";
 
 const Home = () => {
   const { searchValue } = useContext(SearchValueContext);
-  const { items, status } = useSelector((state) => state.pizzaSlice);
-  const { categoryId, sortType, currentPage } = useSelector(
-    (state) => state.filterSlice
-  );
+  const { items, status } = useSelector(selectPizzaSlice);
+  const { categoryId, sortType, currentPage } = useSelector(selectFilterSlice);
   const sortTypeProperty = sortType.sortProperty;
   const isSearch = useRef(false);
   const isMounted = useRef(false);

@@ -3,11 +3,12 @@ import {
   removeItem,
   plusOneItem,
   minusOneItem,
+  selectCartSlice,
 } from "../redux/slices/cartSlice";
 
 const CartPizzasList = () => {
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.cartSlice);
+  const { items } = useSelector(selectCartSlice);
 
   const onClickRemoveItem = (obj) => {
     dispatch(removeItem(obj));

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"; // временная заглушка для параметров (ругается линтер)
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setItems } from "../../redux/slices/cartSlice";
+import { setItems, selectCartSlice } from "../../redux/slices/cartSlice";
 
 const typeNames = ["тонкое", "традиционное"];
 
@@ -9,8 +9,8 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
   const dispatch = useDispatch();
-  const addedPizzasList = useSelector((state) => state.cartSlice).items;
-  const addedPizzasCount = addedPizzasList
+  const { items } = useSelector(selectCartSlice);
+  const addedPizzasCount = items
     .filter((obj) => obj.id === id)
     .reduce((acc, obj) => {
       if (obj.count > 0) {
