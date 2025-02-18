@@ -2,6 +2,7 @@ import PropTypes from "prop-types"; // временная заглушка дл�
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setItems, selectCartSlice } from "../../redux/slices/cartSlice";
+import { Link } from "react-router";
 
 const typeNames = ["тонкое", "традиционное"];
 
@@ -35,7 +36,9 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
 
   return (
     <div className="pizza-block">
-      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+      <Link to={`pizza/${id}`}>
+        <img className="pizza-block__image info-ref" src={imageUrl} alt="Pizza" />
+      </Link>
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
@@ -93,7 +96,7 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
 
 // временная заглушка для параметров (ругается линтер)
 PizzaBlock.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   imageUrl: PropTypes.string.isRequired,

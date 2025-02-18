@@ -128,6 +128,31 @@ body {
   }
 }
 
+
+.full-info-pizza {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  &__title {
+    font-size: 3.2rem;
+    font-weight: 700;
+  }
+
+  &__img {
+    width: 25rem;
+    height: 25rem;
+    object-fit: contain;
+  }
+
+  &__price {
+    font-size: 2.2rem;
+    font-weight: 700;
+  }
+}
+
 .cart {
   &__top {
     display: flex;
